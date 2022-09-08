@@ -1,0 +1,50 @@
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
+metadata:
+  name: random-vpa
+spec:
+  recommenders:
+    - name: clever
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: random
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        minAllowed:
+          cpu: 100m
+          memory: 50Mi
+        maxAllowed:
+          cpu: 2
+          memory: 1Gi
+        controlledResources: ["cpu", "memory"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random
+spec:
+  selector:
+    matchLabels:
+      app: random
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: random
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+      containers:
+        - name: hamster
+          image: k8s.gcr.io/ubuntu-slim:0.1
+          resources:
+            requests:
+              cpu: 1
+              memory: 500Mi
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - "cat /dev/random"
