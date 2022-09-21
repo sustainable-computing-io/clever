@@ -1,2 +1,2 @@
-# energy-aware-recommender
-Kubernetes Energy Aware VPA Recommender
+# CLEVER
+Container Level Energy-efficient VPA Recommender for Kubernetes
