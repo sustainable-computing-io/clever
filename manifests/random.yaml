@@ -14,11 +14,9 @@ spec:
       - containerName: '*'
         minAllowed:
           cpu: 100m
-          memory: 50Mi
         maxAllowed:
-          cpu: 2
-          memory: 1Gi
-        controlledResources: ["cpu", "memory"]
+          cpu: 16
+        controlledResources: ["cpu"]
 ---
 apiVersion: apps/v1
 kind: Deployment
