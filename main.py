@@ -53,6 +53,7 @@ if __name__ == '__main__':
     if LATEST_NODE_CPU_FREQUENCY is None:
         print("Prometheus Query {} at Endpoint {} failed.".format(LATEST_CPU_FREQUENCY_QUERY, prom_client.prom_address))
         exit(-1)
+    print("Initialized the node CPU frequency cache {}".format(LATEST_NODE_CPU_FREQUENCY))
 
     # Get the VPA CRD
     current_crds = [x['spec']['names']['kind'].lower() for x in v1.list_custom_resource_definition().to_dict()['items']]
@@ -76,6 +77,8 @@ if __name__ == '__main__':
             # Get initial container request.
             if vpa_name not in ACTIVE_VPA_DEFAULT_CPU_REQUESTS.keys():
                 ACTIVE_VPA_DEFAULT_CPU_REQUESTS[vpa_name], vpa_nodes = get_vpa_detailed_info(corev1, vpa)
+                print("Updating the default CPU request cache for newly discovered VPA {}".format(vpa_name))
+                print(ACTIVE_VPA_DEFAULT_CPU_REQUESTS)
             else:
                 _, vpa_nodes = get_vpa_detailed_info(corev1, vpa)
 
@@ -85,14 +88,18 @@ if __name__ == '__main__':
                     node_vpas[node] = [vpa]
                 else:
                     node_vpas[node].append(vpa)
+            print("Discovering VPAs running on the following nodes.")
+            print(node_vpas)
 
         # Obtain the latest node cpu frequencies
         CUR_NODE_CPU_FREQUENCY = get_all_node_homogeneous_frequencies(prom_client, LATEST_CPU_FREQUENCY_QUERY)
+        print("Current node CPU frequencies\n {}".format(CUR_NODE_CPU_FREQUENCY))
 
         # Check difference between LATEST_NODE_CPU_FREQUENCY and CUR_NODE_CPU_FREQUENCY
         if CUR_NODE_CPU_FREQUENCY != LATEST_NODE_CPU_FREQUENCY:
             # Select nodes with frequency changes.
             nodes_with_frequency_changes = find_node_with_frequency_changes(CUR_NODE_CPU_FREQUENCY, LATEST_NODE_CPU_FREQUENCY)
+            print("Discover nodes with frequency changes {}".format(nodes_with_frequency_changes))
 
             vpas_to_update = {}
             for node in nodes_with_frequency_changes:
@@ -105,6 +112,7 @@ if __name__ == '__main__':
                     vpa_name = vpa["metadata"]["name"]
                     vpas_to_update[vpa_name] = vpa
 
+            print("These VPAs {} are impacted by the following nodes with frequency changes {}.".format(vpas_to_update.keys(), nodes_with_frequency_changes))
             for vpa in vpas_to_update.values():
                 vpa_name = vpa["metadata"]["name"]
                 vpa_namespace = vpa["metadata"]["namespace"]
@@ -112,6 +120,7 @@ if __name__ == '__main__':
                 print("Recommend sizes according to current frequency for vpas on nodes with frequency changes!")
 
                 recommendations = get_recommendation(vpa, corev1, CUR_NODE_CPU_FREQUENCY, MAX_NODE_CPU_FREQUENCY, ACTIVE_VPA_DEFAULT_CPU_REQUESTS[vpa_name])
+                print("Recommendations for VPA {} are {}".format(vpa_name, recommendations))
 
                 if not recommendations:
                     print("No new recommendations obtained, so skip updating the vpa object {}".format(vpa_name))
@@ -133,5 +142,6 @@ if __name__ == '__main__':
                 except ApiException as e:
                     print("Exception when calling CustomObjectsApi->patch_namespaced_custom_object: %s\n" % e)
 
+        print("Sleeping for {} seconds".format(SLEEP_WINDOW))
         time.sleep(SLEEP_WINDOW)
 

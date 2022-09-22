@@ -32,7 +32,6 @@ class PromClient:
             response = requests.get('{0}/api/v1/query'.format(self.prom_address),
                                     params={'query': my_query},
                                     headers=headers, verify=False)
-            print(response)
 
         except requests.exceptions.RequestException as e:
             print(e)

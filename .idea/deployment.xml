@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@150.238.242.198:22 key" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@169.61.236.35:22 key" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="root@150.238.242.198:22 key">
+      <paths name="root@169.61.236.35:22 key">
         <serverdata>
           <mappings>
-            <mapping deploy="/root/python/sustainable-computing-io/energy-aware-recommender" local="$PROJECT_DIR$" />
+            <mapping deploy="/tmp/pycharm_project_419" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@169.61.236.35:22 key (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_848" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@169.61.236.35:22 key (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/python/venv/clever" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

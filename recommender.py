@@ -10,6 +10,7 @@ def selects_recommender(vpas, recommender_name):
         if "recommenders" not in vpa_spec.keys():
             continue
         else:
+            print("VPA {} has chosen {} recommenders".format(vpa["metadata"]["name"], len(vpa_spec["recommenders"])))
             print(vpa_spec)
             for recommender in vpa_spec["recommenders"]:
                 if recommender["name"] == recommender_name:
