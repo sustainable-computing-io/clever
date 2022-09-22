@@ -67,5 +67,5 @@ watch -n 0.1 ./scripts/vpa.sh random-vpa
 
 - Change the node CPU frequencies to observe the effect on the recommended CPU requests.
 ```bash
-
+./scripts/set_cpu_freq.sh 1GHz
 ```
