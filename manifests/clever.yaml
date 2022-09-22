@@ -1,0 +1,81 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: clever-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - customresourcedefinitions
+  verbs:
+  - '*'
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - '*'
+- apiGroups:
+  - autoscaling.k8s.io
+  resources:
+  - verticalpodautoscalers
+  - verticalpodautoscalercheckpoints
+  verbs:
+  - '*'
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  verbs:
+  - '*'
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - "*"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: clever
+  namespace: kube-system
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: clever-role-binding
+subjects:
+- kind: ServiceAccount
+  name: clever
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: clever-role
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clever
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clever
+  template:
+    metadata:
+      labels:
+        app: clever
+    spec:
+      containers:
+        - name: clever
+          image: quay.io/chenw615/clever:latest
+          env:
+            - name: PROM_HOST
+              value: "http://prometheus-k8s.monitoring.svc.cluster.local:9090"
+          imagePullPolicy: Always
+      serviceAccountName: clever
+      serviceAccount: clever
