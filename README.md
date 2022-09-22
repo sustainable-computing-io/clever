@@ -31,7 +31,7 @@ git clone https://github.com/sustainable-computing-io/clever.git
 kubectl apply -f manifests/clever.yaml
 ```
 
-## Example Use Case
+## Tutorial
 - Deploy the example application that selects the CLEVER recommender for VPA.
 ```bash
 kubectl apply -f manifests/random.yaml
