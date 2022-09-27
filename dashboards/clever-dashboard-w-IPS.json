@@ -282,7 +282,7 @@
             }
           },
           "mappings": [],
-          "max": 2000000000,
+          "max": 10000000000,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -432,6 +432,6 @@
   "timezone": "",
   "title": "Clever VPA Recommender",
   "uid": "ePYMOfnVk",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
