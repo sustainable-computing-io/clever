@@ -16,13 +16,18 @@ def get_homogeneous_value(node_frequencies):
     homogeneous_frequency = -1
     for cpu in node_frequencies.keys():
         if cpu_count == 0:
-            homogeneous_frequency = node_frequencies[cpu]
+            homogeneous_frequency = int(node_frequencies[cpu])
         else:
             if node_frequencies[cpu] != homogeneous_frequency:
-                return -1
+                # return -1
+                homogeneous_frequency = max(int(node_frequencies[cpu]), homogeneous_frequency)
 
         cpu_count +=1
+    homogeneous_frequency = get_rounded_frequency(homogeneous_frequency)
     return homogeneous_frequency
+
+def get_rounded_frequency(frequency):
+    return round(frequency / 1000000000) * 1000000000
 
 def get_all_node_homogeneous_frequencies(prom_cient, prometheus_query):
     frequency_data = prom_cient.get_query(prometheus_query)

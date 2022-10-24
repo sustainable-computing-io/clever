@@ -1,6 +1,6 @@
 
 DEFAULT_NAMESPACE="default"
-DELTA = 0.1
+DELTA = 0.2
 
 # Select the VPAs that choose the current clever recommender
 def selects_recommender(vpas, recommender_name):

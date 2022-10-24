@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@169.61.236.35:22 key" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@52.117.128.227:22 agent" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="root@169.61.236.35:22 key">
         <serverdata>
@@ -20,6 +20,13 @@
         <serverdata>
           <mappings>
             <mapping deploy="/root/python/venv/clever" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@52.117.128.227:22 agent">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_431" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
