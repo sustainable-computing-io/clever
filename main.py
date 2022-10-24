@@ -143,5 +143,6 @@ if __name__ == '__main__':
                     print("Exception when calling CustomObjectsApi->patch_namespaced_custom_object: %s\n" % e)
 
         print("Sleeping for {} seconds".format(SLEEP_WINDOW))
+        print("=====================================================================================================")
         time.sleep(SLEEP_WINDOW)
 

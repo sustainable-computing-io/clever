@@ -5,7 +5,8 @@ def parse_frequency_dict(cpu_frequency_data):
     for cur_element in cpu_frequency_data:
         node_name = cur_element["metric"]["instance"]
         cpu_idx = cur_element["metric"]["cpu"]
-        all_node_frequencies[node_name] = {}
+        if node_name not in all_node_frequencies.keys():
+            all_node_frequencies[node_name] = {}
         cur_val = cur_element["value"][1]
         all_node_frequencies[node_name][cpu_idx] = cur_val
 
@@ -19,7 +20,6 @@ def get_homogeneous_value(node_frequencies):
             homogeneous_frequency = int(node_frequencies[cpu])
         else:
             if node_frequencies[cpu] != homogeneous_frequency:
-                # return -1
                 homogeneous_frequency = max(int(node_frequencies[cpu]), homogeneous_frequency)
 
         cpu_count +=1
