@@ -1,3 +1,23 @@
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
+metadata:
+  name: sysbench-vpa
+spec:
+  recommenders:
+    - name: clever
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: sysbench
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        minAllowed:
+          cpu: 100m
+        maxAllowed:
+          cpu: 16
+        controlledResources: ["cpu"]
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,10 +40,10 @@ spec:
           image: severalnines/sysbench
           resources:
             requests:
-              cpu: 400m
+              cpu: 250m
               memory: 500Mi
             limits:
-              cpu: 400m
+              cpu: 250m
               memory: 500Mi
           command:
           - sysbench
