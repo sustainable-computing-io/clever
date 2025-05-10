@@ -1,4 +1,4 @@
-FROM python:3.6.8
+FROM python:latest
 
 WORKDIR /root/src/clever
 
